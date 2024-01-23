@@ -25,6 +25,7 @@ function getNearbyUsers({ user, lat, lon }: Props) {
     fetch(`${url}?${urlParams}`)
       .then((res) => (res.ok ? res.json() : console.error(res.status)))
       .then((data) => setNearbyUsers(data))
+      .then((e) => console.log(nearbyUsers))
       .then(() => setIsLoading(false))
       .catch((err) => {
         console.error(err);

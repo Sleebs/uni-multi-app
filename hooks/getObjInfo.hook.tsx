@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { TUserCredentials, TUserComplete } from "../.expo/types/user";
-import React from "react";
+import { item } from "../.expo/types/items";
 
-type Props = { user: TUserCredentials | TUserComplete; objId: number };
+type Props = { user: TUserCredentials | TUserComplete; item: item };
 
-function getObjInfo({ user, objId }: Props) {
-  const [itemInfo, setItemInfo] = useState({});
+const getObjInfo = ({ user, item }: Props) => {
+  const [itemInfo, setItemInfo] = useState<null | item>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<null | Error>(null);
 
-  const url = `https://develop.ewlab.di.unimi.it/mc/mostri/objects/${objId}`;
+  const url = `https://develop.ewlab.di.unimi.it/mc/mostri/objects/${item.id}`;
   const urlParams = new URLSearchParams({
     sid: user.sid,
   });
@@ -17,7 +17,9 @@ function getObjInfo({ user, objId }: Props) {
   const fetchData = async () => {
     setIsLoading(true);
     fetch(`${url}?${urlParams}`)
-      .then((res) => (res.ok ? res.json() : console.error(res.status)))
+      .then((res) =>
+        res.ok ? res.json() : console.error(JSON.stringify(res.status))
+      )
       .then((data) => setItemInfo(data))
       .then(() => setIsLoading(false))
       .catch((err) => {
@@ -36,6 +38,6 @@ function getObjInfo({ user, objId }: Props) {
   };
 
   return { itemInfo, isLoading, error, reFetch };
-}
+};
 
 export default getObjInfo;

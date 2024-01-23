@@ -1,22 +1,30 @@
 import React, { useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View } from "../../components/Themed";
-import MapView, {
-  Marker,
-  Camera,
-  LatLng,
-  UserLocationChangeEvent,
-} from "react-native-maps";
+import ObjectMarker from "./ObjectMarker/ObjectMarker";
+import MapView, { LatLng, UserLocationChangeEvent } from "react-native-maps";
+import getNearbyItems from "../../hooks/getNearbyItems.hook";
+import getNearbyUsers from "../../hooks/getNearbyUsers.hook";
+import { TUserCredentials } from "../../.expo/types/user";
 
 type Props = { lat: number; long: number };
 
 const Map = ({ lat, long }: Props) => {
   const latlong: LatLng = { latitude: lat, longitude: long } as LatLng;
   const mapRef = useRef<null | MapView>(null);
-  const mark = {
-    latitude: 45.47626598053197,
-    longitude: 9.231924412700817,
-  };
+  const user: TUserCredentials = { sid: "YwXOZqwj20xeT5ye23Kf", uid: 140 };
+  const { nearbyUsers } = getNearbyUsers({
+    user: user,
+    lat: lat + "",
+    lon: long + "",
+  });
+
+  const { items, isLoading, error, reFetch } = getNearbyItems({
+    user: user,
+    lat: lat + "",
+    lon: long + "",
+  });
+
   const handleUserLocationChange = () => {
     mapRef.current?.animateCamera(
       { center: { latitude: lat, longitude: long }, heading: 0, pitch: 10 },
@@ -26,7 +34,7 @@ const Map = ({ lat, long }: Props) => {
 
   useEffect(() => {
     // console.log(getCamera);
-  }, []);
+  }, [items]);
   return (
     <View style={styles.mapContainer}>
       <MapView
@@ -38,17 +46,19 @@ const Map = ({ lat, long }: Props) => {
         followsUserLocation={true}
         userLocationPriority={"high"}
         scrollEnabled={false}
-        minZoomLevel={15}
+        // minZoomLevel={16}
         camera={{
           center: { latitude: lat, longitude: long },
           heading: 0,
           pitch: 10,
-          zoom: 15,
+          zoom: 16,
         }}
         onUserLocationChange={handleUserLocationChange}
         ref={(current) => (mapRef.current = current)}
       >
-        {/* <Marker coordinate={mark} flat={true} /> */}
+        {items?.map((item, index) => (
+          <ObjectMarker key={index} item={item} />
+        ))}
       </MapView>
     </View>
   );

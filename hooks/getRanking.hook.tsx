@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { TUserCredentials, TUserComplete } from "../.expo/types/user";
-import React from "react";
+import { useSelector } from "react-redux";
 
-type Props = { user: TUserCredentials | TUserComplete };
+type Props = {};
 
-function getRanking({ user }: Props) {
+function getRanking() {
+  const userData = useSelector((state: any) => state.user);
   const [usersRanking, setUsersRanking] = useState<Array<any>>(
     new Array<any>()
   );
@@ -13,7 +14,7 @@ function getRanking({ user }: Props) {
 
   const url = "https://develop.ewlab.di.unimi.it/mc/mostri/ranking";
   const urlParams = new URLSearchParams({
-    sid: user.sid,
+    sid: "YwXOZqwj20xeT5ye23Kf",
   });
 
   const fetchData = async () => {

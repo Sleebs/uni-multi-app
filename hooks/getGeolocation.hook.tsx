@@ -26,9 +26,8 @@ const getGeolocation = () => {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-      console.log("current location data: " + JSON.stringify(location));
     })();
-  }, []);
+  }, [location]);
   return { location, errorMsg };
 };
 

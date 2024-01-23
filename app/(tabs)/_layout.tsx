@@ -1,8 +1,14 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
-
+import UserMini from "../../components/User/UserMini";
 import Colors from "../../constants/Colors";
+import { View } from "../../components/Themed";
+import { Tuser } from "../../.expo/types/user";
+import { setUserData } from "../../stores/userStore";
+import { useDispatch } from "react-redux";
+import getUserInfo from "../../hooks/getUserInfo.hook";
+import { useEffect } from "react";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -16,6 +22,17 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const dispatch = useDispatch();
+  const userPartial: Tuser = { sid: "YwXOZqwj20xeT5ye23Kf", uid: 140 };
+  const updateUserData = (user: Tuser | null) => {
+    dispatch(setUserData(user));
+  };
+  const { userInfo } = getUserInfo({ uid: 140 });
+  useEffect(() => {
+    if (userInfo != null) {
+      updateUserData(userInfo);
+    }
+  }, [userInfo]);
 
   return (
     <Tabs
@@ -27,13 +44,13 @@ export default function TabLayout() {
         name='index'
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name='home' color={color} />,
           headerRight: () => (
             <Link href='/modal' asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome
-                    name='info-circle'
+                    name='user'
                     size={25}
                     color={Colors[colorScheme ?? "light"].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
@@ -42,15 +59,34 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           ),
+          headerLeft: () => (
+            <View style={{ width: 190, paddingLeft: 5 }}>
+              <UserMini />
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name='two'
         options={{
-          title: "Inventory",
-          tabBarIcon: ({ color }) => <TabBarIcon name='code' color={color} />,
+          title: "Items List",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name='th-list' color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='ranking'
+        options={{
+          title: "Ranking",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name='mortar-board' color={color} />
+          ),
         }}
       />
     </Tabs>
   );
+}
+function dispatch(arg0: { payload: any; type: "user/setUserData" }) {
+  throw new Error("Function not implemented.");
 }
