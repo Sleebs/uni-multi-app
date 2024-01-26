@@ -11,7 +11,7 @@ import { View, Text } from "../../Themed";
 import getObjInfo from "../../../hooks/getObjInfo.hook";
 import { TUserCredentials } from "../../../.expo/types/user";
 import activateItem from "../../../hooks/activateItem.hook";
-import { Image } from "react-native";
+import { Link, router } from "expo-router";
 
 type Props = { item: item };
 
@@ -27,7 +27,7 @@ const ObjectMarker = ({ item }: Props) => {
       setIcon(require("../../../assets/images/candy.png"));
     if (itemInfo?.type === "monster")
       setIcon(require("../../../assets/images/monster.png"));
-    if (itemInfo?.type === "artifact")
+    if (itemInfo?.type === "amulet")
       setIcon(require("../../../assets/images/artifact.png"));
     if (itemInfo?.type === "armor")
       setIcon(require("../../../assets/images/armor.png"));
@@ -36,12 +36,17 @@ const ObjectMarker = ({ item }: Props) => {
   }, [itemInfo]);
 
   const handlePress = () => {
-    const ok = activate();
+    // const ok = activate();
     console.log(
       `/ ACTIVATED / name:${itemInfo?.name} - level:${itemInfo?.level} - type:${
         itemInfo?.type
       } - id:${itemInfo?.id} - image?:${itemInfo?.image ? true : false}`
     );
+
+    router.push({
+      pathname: "/itemModal",
+      params: { itemModal: JSON.stringify(itemInfo) },
+    });
   };
   // const icon = () => {if(typeof item === "ItemCandy" )}
   return (
@@ -52,13 +57,15 @@ const ObjectMarker = ({ item }: Props) => {
     >
       <Callout onPress={handlePress}>
         <View style={{}}>
-          {itemInfo?.image ? (
-            <Image
-              style={{ height: 90, width: 90 }}
-              source={{ uri: itemInfo.image }}
-            ></Image>
-          ) : null}
-          <Text>{itemInfo?.name}</Text>
+          <Link
+            href={{
+              pathname: "/[itemModal]",
+              params: { itemModal: itemInfo ? itemInfo : { none: null } },
+            }}
+            asChild
+          >
+            <Text>{itemInfo?.name}</Text>
+          </Link>
         </View>
       </Callout>
     </Marker>

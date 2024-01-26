@@ -14,7 +14,7 @@ const UserMini = (props: Props) => {
         style={{
           height: 10,
           width: "100%",
-          backgroundColor: "red",
+          backgroundColor: "crimson",
           borderRadius: 5,
           flexDirection: "column",
         }}
@@ -23,7 +23,7 @@ const UserMini = (props: Props) => {
           style={{
             height: "100%",
             width: `${userData?.life ? userData.life : 100}%`,
-            backgroundColor: "green",
+            backgroundColor: "lime",
             borderTopLeftRadius: 5,
             borderBottomLeftRadius: 5,
             borderTopEndRadius: userData.life
@@ -47,7 +47,7 @@ const UserMini = (props: Props) => {
         <View
           style={{
             height: "100%",
-            width: `${userData?.experience ? userData.experience : 100}%`,
+            width: `${userData?.experience ? userData.experience % 100 : 100}%`,
             backgroundColor: "yellow",
             borderTopLeftRadius: 5,
             borderBottomLeftRadius: 5,

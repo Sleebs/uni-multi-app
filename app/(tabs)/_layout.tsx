@@ -43,10 +43,12 @@ export default function TabLayout() {
       <Tabs.Screen
         name='index'
         options={{
-          title: "Home",
+          title: `${userInfo?.name} lv ${
+            parseInt(userInfo?.experience / 100) + 1
+          }`,
           tabBarIcon: ({ color }) => <TabBarIcon name='home' color={color} />,
           headerRight: () => (
-            <Link href='/modal' asChild>
+            <Link href='/userProfile' asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome
