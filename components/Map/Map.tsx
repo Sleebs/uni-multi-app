@@ -5,7 +5,8 @@ import ObjectMarker from "./ObjectMarker/ObjectMarker";
 import MapView, { LatLng, UserLocationChangeEvent } from "react-native-maps";
 import getNearbyItems from "../../hooks/getNearbyItems.hook";
 import getNearbyUsers from "../../hooks/getNearbyUsers.hook";
-import { TUserCredentials } from "../../.expo/types/user";
+import { TOtherUser, TUserCredentials, Tuser } from "../../.expo/types/user";
+import PlayerMarker from "./PlayerMarker/PlayerMarker";
 
 type Props = { lat: number; long: number };
 
@@ -19,7 +20,7 @@ const Map = ({ lat, long }: Props) => {
     lon: long + "",
   });
 
-  const { items, isLoading, error, reFetch } = getNearbyItems({
+  const { items } = getNearbyItems({
     user: user,
     lat: lat + "",
     lon: long + "",
@@ -34,7 +35,7 @@ const Map = ({ lat, long }: Props) => {
 
   useEffect(() => {
     // console.log(getCamera);
-  }, [items]);
+  }, [items, nearbyUsers]);
   return (
     <View style={styles.mapContainer}>
       <MapView
@@ -59,6 +60,9 @@ const Map = ({ lat, long }: Props) => {
         {items?.map((item, index) => (
           <ObjectMarker key={index} item={item} />
         ))}
+        {nearbyUsers?.map((user, index) => {
+          <PlayerMarker key={index} player={user} />;
+        })}
       </MapView>
     </View>
   );

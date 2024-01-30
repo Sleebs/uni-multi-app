@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { TOtherUser } from "../../../.expo/types/user";
 import { Marker, Callout } from "react-native-maps";
 import { View, Text } from "../../Themed";
-import getObjInfo from "../../../hooks/getObjInfo.hook";
 import { TUserCredentials } from "../../../.expo/types/user";
+import getObjInfo from "../../../hooks/getObjInfo.hook";
 import activateItem from "../../../hooks/activateItem.hook";
 
 type Props = { player: TOtherUser };
@@ -15,37 +15,29 @@ const PlayerMarker = ({ player }: Props) => {
   //   const { activate } = activateItem({ user, item });
 
   const [icon, setIcon] = useState<null | any>(null);
+  const icona = require("../../../assets/images/player.png");
   useEffect(() => {
-    if (itemInfo?.type === "candy")
-      setIcon(require("../../../assets/images/candy.png"));
-    if (itemInfo?.type === "monster")
-      setIcon(require("../../../assets/images/monster.png"));
-    if (itemInfo?.type === "artifact")
-      setIcon(require("../../../assets/images/artifact.png"));
-    if (itemInfo?.type === "armor")
-      setIcon(require("../../../assets/images/armor.png"));
-    if (itemInfo?.type === "weapon")
-      setIcon(require("../../../assets/images/weapon.png"));
-  }, [itemInfo]);
+    setIcon(require("../../../assets/images/player.png"));
+  }, []);
 
   const handlePress = () => {
-    const ok = activate();
-    console.log(
-      `/ ACTIVATED / name:${itemInfo?.name} - level:${itemInfo?.level} - type:${
-        itemInfo?.type
-      } - id:${itemInfo?.id} - img?:${itemInfo?.image ? true : false}`
-    );
+    // const ok = activate();
+    // console.log(
+    //   `/ ACTIVATED / name:${itemInfo?.name} - level:${itemInfo?.level} - type:${
+    //     itemInfo?.type
+    //   } - id:${itemInfo?.id} - img?:${itemInfo?.image ? true : false}`
+    // );
   };
   // const icon = () => {if(typeof item === "ItemCandy" )}
   return (
     <Marker
-      coordinate={{ latitude: item.lat, longitude: item.lon }}
+      coordinate={{ latitude: player.lat, longitude: player.lon }}
       flat={true}
-      icon={icon}
+      icon={icona}
     >
       <Callout onPress={handlePress}>
         <View>
-          <Text>{JSON.stringify(itemInfo)}</Text>
+          <Text>{JSON.stringify(player)}</Text>
         </View>
       </Callout>
     </Marker>

@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { TUserCredentials, TUserComplete } from "../.expo/types/user";
+import {
+  TUserCredentials,
+  TUserComplete,
+  TOtherUser,
+} from "../.expo/types/user";
 import React from "react";
 
 type Props = {
@@ -9,7 +13,9 @@ type Props = {
 };
 
 function getNearbyUsers({ user, lat, lon }: Props) {
-  const [nearbyUsers, setNearbyUsers] = useState("temp");
+  const [nearbyUsers, setNearbyUsers] = useState<Array<TOtherUser>>(
+    new Array<TOtherUser>()
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<null | Error>(null);
 
@@ -25,7 +31,7 @@ function getNearbyUsers({ user, lat, lon }: Props) {
     fetch(`${url}?${urlParams}`)
       .then((res) => (res.ok ? res.json() : console.error(res.status)))
       .then((data) => setNearbyUsers(data))
-      .then((e) => console.log(nearbyUsers))
+      // .then((e) => console.log(nearbyUsers))
       .then(() => setIsLoading(false))
       .catch((err) => {
         console.error(err);

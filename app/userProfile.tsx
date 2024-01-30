@@ -3,6 +3,7 @@ import { Platform, StyleSheet, TextInput, Switch, Image } from "react-native";
 import { useEffect, useState } from "react";
 import { Text, View } from "../components/Themed";
 import { useDispatch, useSelector } from "react-redux";
+import { Stack } from "expo-router";
 
 import CharacterSheet from "../components/CharacterSheet/CharacterSheet";
 import { Tuser } from "../.expo/types/user";
@@ -14,12 +15,7 @@ export default function ModalScreen() {
 
   return (
     <View style={styles.container}>
-      {/* <Text style={{}}>{JSON.stringify(userData)}</Text> */}
-
-      {/* //////  PROPIC - NAME  ////// */}
       <CharacterSheet />
-
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
+import { Link, Stack, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
 import UserMini from "../../components/User/UserMini";
 import Colors from "../../constants/Colors";
@@ -44,7 +44,7 @@ export default function TabLayout() {
         name='index'
         options={{
           title: `${userInfo?.name} lv ${
-            parseInt(userInfo?.experience / 100) + 1
+            Math.floor(userInfo?.experience / 100) + 1
           }`,
           tabBarIcon: ({ color }) => <TabBarIcon name='home' color={color} />,
           headerRight: () => (
